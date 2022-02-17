@@ -32,6 +32,11 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Добавить новость</a>
                     </li>
+                    <li class="nav-item">
+                        <span class="nav-link active">
+                            Сегодня на сервере {% now 'Y-m-d H:i' %}
+                        </span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -39,7 +44,7 @@
 </div>
 
 <div class="container mt-3">
-    <h1>{{ title }}</h1>
+    <h1 style="text-align: center;">{{ title }}</h1>
     <div class="row">
         <div class="col-md-12">
             {% for item in news %}
@@ -48,14 +53,25 @@
                         Категория: {{ item.category.title }}
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ item.title }}</h5>
-                        <p class="card-text">{{ item.content }}</p>
-                        <a href="#" class="btn btn-primary">Read more!</a>
+                        <div class="media">
+                            {% if item.photo %}
+                                <img class="mr-3" src="{{ item.photo.url }}" alt="">
+                            {% else %}
+                                <img class="mr-3" src="https://imgholder.ru/505x160/adb9ca/374355&text=imgHolder&font=bebas" alt="">
+                            {% endif %}
+                            <div class="media-body">
+                                <h5 class="card-title {% cycle 'text-danger' 'text-success' %}">{{ item.title }}</h5>
+                                <p class="card-text">{{ item.content|truncatewords:100 }}</p>
+                                <a href="#" class="btn btn-primary">Read more!</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer text-muted">
                         {{ item.created_at|date:'Y-m-d H:i' }}
                     </div>
                 </div>
+            {% empty %}
+                <div><p style="color: red; text-align: center;">Oops!</p></div>
             {% endfor %}
         </div>
     </div>
