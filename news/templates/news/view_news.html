@@ -12,18 +12,14 @@
             Категория: <a href="{{ news_item.category.get_absolute_url }}">{{ news_item.category.title }}</a>
         </div>
         <div class="card-body">
-            <div class="media">
-                {% if news_item.photo %}
-                    <img class="mr-3" src="{{ news_item.photo.url }}" alt="">
-                {% else %}
-                    <img class="mr-3"
-                         src="https://imgholder.ru/505x160/adb9ca/374355&text=imgHolder&font=bebas" alt="">
-                {% endif %}
-                <div class="media-body">
-                    <h5 class="card-title {% cycle 'text-danger' 'text-success' %}">{{ news_item.title }}</h5>
-                    <p class="card-text">{{ news_item.content }}</p>
-                </div>
-            </div>
+            {% if news_item.photo %}
+                <img class="mr-3 float-start" src="{{ news_item.photo.url }}" alt="">
+            {% else %}
+                <img class="mr-3 float-start"
+                     src="https://imgholder.ru/505x160/adb9ca/374355&text=imgHolder&font=bebas" alt="">
+            {% endif %}
+            <h5 class="card-title {% cycle 'text-danger' 'text-success' %}">{{ news_item.title }}</h5>
+            <p class="card-text">{{ news_item.content }}</p>
         </div>
         <div class="card-footer text-muted">
             {{ news_item.created_at|date:'Y-m-d H:i' }}
