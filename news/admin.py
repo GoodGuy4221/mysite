@@ -11,6 +11,7 @@ class NewsAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
         'is_published',
+        'views',
     )
     list_display_links = (
         'id',
@@ -23,6 +24,7 @@ class NewsAdmin(admin.ModelAdmin):
 
     list_editable = (
         'is_published',
+        'views',
     )
 
     list_filter = (
