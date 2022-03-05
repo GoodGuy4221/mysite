@@ -14,13 +14,14 @@ class HomeNews(ListView):
     }
     template_name = 'news/index.html'
     context_object_name = 'news'
+    # queryset = News.objects.select_related('category').filter(is_published=True)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
 
     def get_queryset(self):
-        return News.objects.filter(is_published=True)
+        return News.objects.filter(is_published=True).select_related('category')
 
 
 # def index(request):
@@ -43,12 +44,12 @@ class NewsByCategory(ListView):
         queryset = News.objects.filter(
             category=self.kwargs['category_id'],
             is_published=True,
-        )
+        ).select_related('category')
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = Category.objects.get(pk=self.kwargs['category_id']).title
+        # context['title'] = Category.objects.get(pk=self.kwargs['category_id']).title
         return context
 
 

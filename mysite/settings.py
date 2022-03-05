@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'news.apps.NewsConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files
 MEDIA_ROOT = Path(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# For django-debug-toolbar
+if DEBUG:
+    MIDDLEWARE.extend(
+        [
+            'debug_toolbar.middleware.DebugToolbarMiddleware',
+        ]
+    )
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
