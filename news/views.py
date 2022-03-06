@@ -2,22 +2,28 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import News, Category
 from .forms import NewsForm
+from .utils import MyMixin
 
 
-class HomeNews(ListView):
+class HomeNews(MyMixin, ListView):
     model = News
     extra_context = {
         'title': 'список новостей',
     }
     template_name = 'news/index.html'
     context_object_name = 'news'
+    mixin_prop = 'hello world'
+
     # queryset = News.objects.select_related('category').filter(is_published=True)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['mixin_prop'] = self.get_prop()
+        context['title'] = self.get_upper('Главная страница')
         return context
 
     def get_queryset(self):
@@ -34,7 +40,7 @@ class HomeNews(ListView):
 #     return render(request, template_name='news/index.html', context=context)
 
 
-class NewsByCategory(ListView):
+class NewsByCategory(MyMixin, ListView):
     model = News
     template_name = 'news/category.html'
     context_object_name = 'news'
@@ -81,7 +87,11 @@ class ViewNews(DetailView):
 #     return render(request=request, template_name='news/news_detail.html', context=context)
 
 
-class CreateNews(CreateView):
+class CreateNews(LoginRequiredMixin, CreateView):
+    # login_url = 'news:home'
+    # login_url = reverse_lazy('news:home')
+    raise_exception = True
+
     form_class = NewsForm
     template_name = 'news/add_news.html'
     # success_url = reverse_lazy('news:home')
