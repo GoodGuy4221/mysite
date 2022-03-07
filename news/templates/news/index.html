@@ -7,8 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    {{ mixin_prop }}
-    {% for item in news %}
+    {% for item in page_obj.object_list %}
         <div class="card mb-3">
             <div class="card-header">
                 Категория: <a href="{{ item.category.get_absolute_url }}">{{ item.category.title }}</a>
