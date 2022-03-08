@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Регистрация
+    {{ block.super }}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Регистрация</h1>
+
+    <form action="{% url 'news:register' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary btn-block" type="submit">Регистрация</button>
+    </form>
+{% endblock %}
