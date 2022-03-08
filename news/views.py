@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
 from .models import News, Category
-from .forms import NewsForm
+from .forms import NewsForm, UserRegisterForm
 from .utils import MyMixin
 
 
@@ -123,9 +123,29 @@ class CreateNews(LoginRequiredMixin, CreateView):
 #     return render(request=request, template_name='news/add_news.html', context=context)
 
 
+# using standard register-form
+# def register(request):
+#     if request.method == 'POST':
+#         form = UserCreationForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request=request, message='Вы успешно зарегистрировались')
+#             return redirect('news:login')
+#         else:
+#             messages.error(request=request, message='Ошибка регистрации')
+#             return redirect(request.META.get('HTTP_REFERER'))
+#     else:
+#         form = UserCreationForm()
+#         context = {
+#             'form': form,
+#         }
+#         return render(request, 'news/register.html', context=context)
+
+
+# using customize register-form
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST, request.FILES)
+        form = UserRegisterForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request=request, message='Вы успешно зарегистрировались')
@@ -134,7 +154,7 @@ def register(request):
             messages.error(request=request, message='Ошибка регистрации')
             return redirect(request.META.get('HTTP_REFERER'))
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
         context = {
             'form': form,
         }

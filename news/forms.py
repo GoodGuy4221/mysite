@@ -1,6 +1,8 @@
 from django import forms
 import re
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 from .models import Category, News
 
@@ -50,3 +52,35 @@ class NewsForm(forms.ModelForm):
         if re.match(r'\d', title):
             raise ValidationError('Название не должно начинаться с числа или цифры!')
         return title
+
+
+class UserRegisterForm(UserCreationForm):
+    username = forms.CharField(label='Имя пользователя', max_length=64, help_text='xD',
+                               widget=forms.TextInput(
+                                   attrs={'class': 'form-control'}
+                               ))
+    password1 = forms.CharField(label='Пароль', max_length=64, widget=forms.PasswordInput(
+        attrs={'class': 'form-control'}
+    ))
+    password2 = forms.CharField(label='Подтверждение пароля', max_length=64, widget=forms.PasswordInput(
+        attrs={'class': 'form-control'}
+    ))
+    email = forms.EmailField(label='Email', max_length=64, widget=forms.EmailInput(
+        attrs={'class': 'form-control'}
+    ))
+
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'email',
+            'password1',
+            'password2',
+        )
+        # Кроме username так настроить не получается
+        # widgets = {
+        #     'username': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        #     'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+        #     'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
+        # }
