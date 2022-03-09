@@ -14,5 +14,6 @@ urlpatterns = [
     path('news/add-news/', news.CreateNews.as_view(), name='add_news'),
 
     path('register/', news.register, name='register'),
-    path('login/', news.login, name='login'),
+    path('login/', news.user_login, name='login'),
+    path('logout/', news.user_logout, name='logout'),
 ]

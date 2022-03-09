@@ -12,7 +12,7 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'news:home' %}">Главная</a>
                 </li>
 
-                {% if user.is_staff %}
+                {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'news:add_news' %}">Добавить
                             новость</a>
@@ -20,15 +20,23 @@
                 {% endif %}
 
                 <li class="nav-item">
-                        <span class="nav-link active">
+                        <span class="nav-link">
                             Сейчас на сервере {% now 'Y-m-d H:i' %}
                         </span>
                 </li>
             </ul>
 
             <span class="navbar-text">
-                <a href="{% url 'news:register' %}">Register</a>
-                <a href="{% url 'news:login' %}">Login</a>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'news:register' %}">Регистрация</a>
+                    <a href="{% url 'news:login' %}">Войти</a>
+                {% else %}
+                    <span>Добро пожаловать, {{ user.username }} |</span>
+                    {% if user.is_staff %}
+                        <a href="/admin/" target="_blank">Админка</a>
+                    {% endif %}
+                    <a href="{% url 'news:logout' %}">Выйти</a>
+                {% endif %}
             </span>
         </div>
     </div>

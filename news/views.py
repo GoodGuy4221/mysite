@@ -6,9 +6,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.auth import login, logout
 
 from .models import News, Category
-from .forms import NewsForm, UserRegisterForm
+from .forms import NewsForm, UserRegisterForm, UserLoginForm
 from .utils import MyMixin
 
 
@@ -147,9 +148,10 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             messages.success(request=request, message='Вы успешно зарегистрировались')
-            return redirect('news:login')
+            return redirect('news:home')
         else:
             messages.error(request=request, message='Ошибка регистрации')
             return redirect(request.META.get('HTTP_REFERER'))
@@ -161,5 +163,21 @@ def register(request):
         return render(request, 'news/register.html', context=context)
 
 
-def login(request):
-    return render(request, 'news/login.html')
+def user_login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('news:home')
+    else:
+        form = UserLoginForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'news/login.html', context=context)
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('news:home')

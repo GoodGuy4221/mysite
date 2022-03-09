@@ -10,6 +10,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Авторизация</h1>
-
+    <h1>Аунтефикация</h1>
+    <form action="{% url 'news:login' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary btn-block" type="submit">Войти</button>
+    </form>
 {% endblock %}
