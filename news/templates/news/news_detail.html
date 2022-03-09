@@ -19,7 +19,7 @@
                      src="https://imgholder.ru/505x160/adb9ca/374355&text=imgHolder&font=bebas" alt="">
             {% endif %}
             <h5 class="card-title {% cycle 'text-danger' 'text-success' %}">{{ news_item.title }}</h5>
-            <p class="card-text">{{ news_item.content }}</p>
+            <p class="card-text">{{ news_item.content|safe }}</p>
         </div>
         <div class="card-footer text-muted">
             {{ news_item.created_at|date:'Y-m-d H:i' }}

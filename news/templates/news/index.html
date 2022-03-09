@@ -22,7 +22,7 @@
                     {% endif %}
                     <div class="media-body">
                         <h5 class="card-title {% cycle 'text-danger' 'text-success' %}">{{ item.title }}</h5>
-                        <p class="card-text">{{ item.content|truncatewords:100 }}</p>
+                        <p class="card-text">{{ item.content|safe|linebreaks|truncatewords:100 }}</p>
                         <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Read more!</a>
                     </div>
                 </div>
