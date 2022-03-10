@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 from .models import Category, News
+from captcha.fields import CaptchaField
 
 
 class UserLoginForm(AuthenticationForm):
@@ -42,6 +43,8 @@ class UserLoginForm(AuthenticationForm):
 
 
 class NewsForm(forms.ModelForm):
+    captcha = CaptchaField(label='Капча')
+
     class Meta:
         model = News
         fields = (

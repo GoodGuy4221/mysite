@@ -96,7 +96,7 @@ class ViewNews(DetailView):
 #     return render(request=request, template_name='news/news_detail.html', context=context)
 
 
-class CreateNews(LoginRequiredMixin, CreateView):
+class CreateNews(CreateView):
     # login_url = 'news:home'
     # login_url = reverse_lazy('news:home')
     raise_exception = True

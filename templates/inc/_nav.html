@@ -12,12 +12,12 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'news:home' %}">Главная</a>
                 </li>
 
-                {% if user.is_authenticated %}
+{#                {% if user.is_authenticated %}#}
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'news:add_news' %}">Добавить
                             новость</a>
                     </li>
-                {% endif %}
+{#                {% endif %}#}
 
                 <li class="nav-item">
                         <span class="nav-link">
